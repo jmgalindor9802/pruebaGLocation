@@ -20,10 +20,7 @@ function ProjectTable({
           <div className="d-flex flex-column flex-md-row gap-2">
             <button type="button" className="btn btn-primary" onClick={onCrear}>
               Nuevo proyecto
-            </button>
-            <button type="button" className="btn btn-outline-primary" onClick={onRefrescar}>
-              Actualizar datos
-            </button>
+            </button>           
           </div>
         </div>
 

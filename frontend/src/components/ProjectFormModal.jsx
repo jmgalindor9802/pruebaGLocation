@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import Modal from 'bootstrap/js/dist/modal.js'
 
 function ProjectFormModal({
   abierto,
@@ -11,33 +12,36 @@ function ProjectFormModal({
   editando,
 }) {
   const modalRef = useRef(null)
+  const modalInstanceRef = useRef(null)
+  const onCloseRef = useRef(onClose)
 
   useEffect(() => {
-    const { bootstrap } = window
-    if (!modalRef.current || !bootstrap?.Modal) return undefined
+    onCloseRef.current = onClose
+  }, [onClose])
+
+  useEffect(() => {
+    if (!modalRef.current) return undefined
 
     const modalElement = modalRef.current
-    const instancia = bootstrap.Modal.getOrCreateInstance(modalElement, {
-      backdrop: 'static',
-    })
+    const instancia = new Modal(modalElement, { backdrop: 'static' })
+    modalInstanceRef.current = instancia
 
     const handleHidden = () => {
-      onClose?.()
+      onCloseRef.current?.()
     }
 
     modalElement.addEventListener('hidden.bs.modal', handleHidden)
 
     return () => {
       modalElement.removeEventListener('hidden.bs.modal', handleHidden)
+      modalInstanceRef.current = null
       instancia.dispose()
     }
-  }, [onClose])
+  }, [])
 
   useEffect(() => {
-    const { bootstrap } = window
-    if (!modalRef.current || !bootstrap?.Modal) return
-
-    const instancia = bootstrap.Modal.getOrCreateInstance(modalRef.current)
+    const instancia = modalInstanceRef.current
+    if (!instancia) return
 
     if (abierto) {
       instancia.show()
@@ -47,12 +51,8 @@ function ProjectFormModal({
   }, [abierto])
 
   const handleCloseClick = () => {
-    const { bootstrap } = window
-    if (modalRef.current && bootstrap?.Modal) {
-      const instancia = bootstrap.Modal.getOrCreateInstance(modalRef.current)
-      instancia.hide()
-    }
-    onClose?.()
+    modalInstanceRef.current?.hide()
+    onCloseRef.current?.()
   }
 
   return (
@@ -61,8 +61,14 @@ function ProjectFormModal({
         <div className="modal-content">
           <div className="modal-header">
             <h2 className="modal-title h5 mb-0">{titulo}</h2>
-            <button type="button" className="btn-close" aria-label="Cerrar" onClick={handleCloseClick}></button>
+            <button
+              type="button"
+              className="btn-close"
+              aria-label="Cerrar"
+              onClick={handleCloseClick}
+            ></button>
           </div>
+
           <div className="modal-body">
             <form onSubmit={onSubmit} className="row g-3">
               <div className="col-12 col-md-6">
@@ -127,12 +133,16 @@ function ProjectFormModal({
                 />
               </div>
 
-              <div className="col-12 d-flex flex-wrap justify-content-end gap-2 mt-3 form-actions">
-                <button type="button" className="btn btn-outline-secondary" onClick={handleCloseClick}>
-                  Cancelar
-                </button>
+              <div className="col-12 d-flex flex-wrap gap-3 form-actions">
                 <button type="submit" className="btn btn-primary">
                   {editando ? 'Guardar cambios' : 'Crear proyecto'}
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={handleCloseClick}
+                >
+                  Cancelar
                 </button>
               </div>
             </form>
