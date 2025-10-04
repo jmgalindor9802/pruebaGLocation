@@ -103,6 +103,10 @@ export const swaggerSpec = {
       name: "Proyectos",
       description: "Operaciones relacionadas con la gestión de proyectos",
     },
+     {
+      name: "Analítica",
+      description: "Recursos para obtener métricas y análisis asistido",
+    },
   ],
   paths: {
     "/proyectos": {
@@ -156,6 +160,39 @@ export const swaggerSpec = {
                     },
                   },
                 },
+              },
+            },
+          },
+        },
+      },
+    },
+     "/analisis": {
+      get: {
+        tags: ["Analítica"],
+        summary: "Generar un resumen y descripciones en lenguaje natural con IA",
+        responses: {
+          200: {
+            description:
+              "Resumen general y descripciones generadas a partir de los proyectos registrados",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/AnalisisResponse" },
+              },
+            },
+          },
+        },
+      },
+    },
+    "/graficos": {
+      get: {
+        tags: ["Analítica"],
+        summary: "Obtener datos agregados para visualizaciones",
+        responses: {
+          200: {
+            description: "Cantidad de proyectos agrupados por estado",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/GraficosResponse" },
               },
             },
           },
@@ -281,6 +318,60 @@ export const swaggerSpec = {
     schemas: {
       Proyecto: proyectoSchema,
       ProyectoInput: proyectoInputSchema,
+       AnalisisResponse: {
+        type: "object",
+        properties: {
+          resumen: {
+            type: "string",
+            description: "Resumen generado por el proveedor de IA",
+          },
+          proyectosAnalizados: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                id: { type: "string", format: "uuid" },
+                nombre: { type: "string" },
+                descripcion: { type: "string", nullable: true },
+                estado: { type: "string" },
+                descripcionIA: {
+                  type: "string",
+                  nullable: true,
+                  description:
+                    "Descripción generada automáticamente en lenguaje natural para el proyecto",
+                },
+              },
+            },
+          },
+          error: {
+            type: "string",
+            nullable: true,
+            description:
+              "Mensaje adicional en caso de que la generación automática haya fallado",
+          },
+        },
+      },
+      GraficosResponse: {
+        type: "object",
+        properties: {
+          proyectosPorEstado: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                estado: {
+                  type: "string",
+                  example: "En progreso",
+                },
+                cantidad: {
+                  type: "integer",
+                  example: 4,
+                },
+              },
+            },
+          },
+        },
+      },
     },
   },
 };

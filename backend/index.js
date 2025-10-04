@@ -6,6 +6,10 @@ import { sequelize } from "./config/database.js";
 import { swaggerSpec } from "./config/swagger.js";
 import "./models/proyecto.model.js";
 import proyectosRouter from "./routes/proyectos.routes.js";
+import {
+  generarAnalisis,
+  obtenerDatosGraficos,
+} from "./controllers/proyectos.controller.js";
 
 const app = express();
 
@@ -26,6 +30,8 @@ app.get("/docs.json", (req, res) => {
 });
 
 app.use("/proyectos", proyectosRouter);
+app.get("/analisis", generarAnalisis);
+app.get("/graficos", obtenerDatosGraficos);
 
 app.use((req, res, next) => {
     res.status(404).json({ mensaje: "Recurso no encontrado" });

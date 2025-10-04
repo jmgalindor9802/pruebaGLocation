@@ -6,18 +6,25 @@ const parseNumber = (value, fallback) => {
   return Number.isNaN(parsed) ? fallback : parsed;
 };
 
-const requireEnv = (value, name) => {
-  if (!value) {
-    throw new Error(
-      `La variable de entorno obligatoria "${name}" no está definida. ` +
-        "Asegúrate de declararla en tu configuración de contenedor."
-    );
-  }
-  return value;
-};
-
 export const env = {
   nodeEnv: process.env.NODE_ENV ?? "development",
   port: parseNumber(process.env.PORT, 3000),
-  databaseUrl: requireEnv(process.env.DATABASE_URL, "DATABASE_URL"),
+    databaseUrl: (() => {
+    const value = process.env.DATABASE_URL;
+    if (!value) {
+      throw new Error(
+        'La variable de entorno obligatoria "DATABASE_URL" no está definida. ' +
+          "Asegúrate de declararla en tu configuración de contenedor."
+      );
+    }
+    return value;
+  })(),
+  aiApiKey:
+    process.env.AI_API_KEY && process.env.AI_API_KEY.trim() !== ""
+      ? process.env.AI_API_KEY
+      : null,
+  aiModel:
+    process.env.AI_MODEL && process.env.AI_MODEL.trim() !== ""
+      ? process.env.AI_MODEL
+      : "gemini-1.5-flash-latest",
 };
