@@ -14,6 +14,7 @@ import { useAlert } from './hooks/useAlert'
 
 function App() {
   const [formulario, setFormulario] = useState(FORM_INICIAL)
+  const [errores, setErrores] = useState({})
   const [proyectoEditando, setProyectoEditando] = useState(null)
   const [mostrarModalFormulario, setMostrarModalFormulario] = useState(false)
   const [mostrarModalEliminar, setMostrarModalEliminar] = useState(false)
@@ -24,7 +25,6 @@ function App() {
     (mensaje) => mostrarAlerta(mensaje, 'error'),
     [mostrarAlerta],
   )
-
 
   const {
     proyectos,
@@ -50,12 +50,26 @@ function App() {
     }
   }, [estadosDisponibles, formulario.estado])
 
-  const manejarCambio = (campo, valor) =>
+  const manejarCambio = (campo, valor) => {
     setFormulario((prev) => ({ ...prev, [campo]: valor }))
+    setErrores((prevErrores) => {
+      if (!Object.keys(prevErrores).length) return prevErrores
+
+      const nuevosErrores = { ...prevErrores }
+      delete nuevosErrores[campo]
+
+      if (campo === 'fechaInicio') {
+        delete nuevosErrores.fechaFin
+      }
+
+      return nuevosErrores
+    })
+  }
 
   const restablecerFormulario = () => {
     setFormulario({ ...FORM_INICIAL, estado: estadosDisponibles[0] ?? FORM_INICIAL.estado })
     setProyectoEditando(null)
+    setErrores({})
   }
 
   const abrirModalCrear = () => {
@@ -69,16 +83,42 @@ function App() {
   }
 
   const validarFormulario = () => {
-    if (!formulario.nombre.trim()) {
-      mostrarAlerta('El nombre del proyecto es obligatorio.', 'error')
-      return false
+    const erroresDetectados = {}
+
+    const nombre = formulario.nombre.trim()
+    const descripcion = formulario.descripcion.trim()
+    const estadoValido = estadosDisponibles.includes(formulario.estado)
+
+    if (!nombre) {
+      erroresDetectados.nombre = 'El nombre del proyecto es obligatorio.'
+    } else if (nombre.length < 3) {
+      erroresDetectados.nombre = 'El nombre debe tener al menos 3 caracteres.'
     }
-    if (!formulario.descripcion.trim()) {
-      mostrarAlerta('La descripción del proyecto es obligatoria.', 'error')
-      return false
+
+    if (!estadoValido) {
+      erroresDetectados.estado = 'Selecciona un estado válido para el proyecto.'
     }
-    if (!formulario.estado) {
-      mostrarAlerta('Selecciona un estado para el proyecto.', 'error')
+
+    if (!descripcion) {
+      erroresDetectados.descripcion = 'La descripción del proyecto es obligatoria.'
+    } else if (descripcion.length < 10) {
+      erroresDetectados.descripcion = 'La descripción debe tener al menos 10 caracteres.'
+    }
+
+    if (formulario.fechaInicio && formulario.fechaFin) {
+      const fechaInicio = new Date(formulario.fechaInicio)
+      const fechaFin = new Date(formulario.fechaFin)
+
+      if (fechaFin < fechaInicio) {
+        erroresDetectados.fechaFin =
+          'La fecha de finalización debe ser posterior o igual a la fecha de inicio.'
+      }
+    }
+
+    setErrores(erroresDetectados)
+
+    if (Object.keys(erroresDetectados).length) {
+      mostrarAlerta('Revisa los campos marcados para continuar.', 'error')
       return false
     }
     return true
@@ -131,6 +171,7 @@ function App() {
       fechaInicio: formatearFechaParaInput(proyecto.fechaInicio),
       fechaFin: formatearFechaParaInput(proyecto.fechaFin),
     })
+    setErrores({})
     setMostrarModalFormulario(true)
   }
 
@@ -174,12 +215,8 @@ function App() {
               </div>
 
               <div className="text-center text-md-start">
-                <span className="app-badge d-inline-block mb-2">
-                  Panel de control
-                </span>
-                <h1 className="app-title fw-bold mb-2">
-                  Gestor de proyectos
-                </h1>
+                <span className="app-badge d-inline-block mb-2">Panel de control</span>
+                <h1 className="app-title fw-bold mb-2">Gestor de proyectos</h1>
                 <p className="app-subtitle fs-5 mb-0">
                   Administra los proyectos registrados, genera resúmenes automáticos con IA y
                   visualiza su distribución por estado.
@@ -237,6 +274,7 @@ function App() {
         abierto={mostrarModalFormulario}
         titulo={proyectoEditando ? 'Editar proyecto' : 'Nuevo proyecto'}
         formulario={formulario}
+        errores={errores}
         estados={estadosDisponibles}
         onChange={manejarCambio}
         onSubmit={manejarEnvio}

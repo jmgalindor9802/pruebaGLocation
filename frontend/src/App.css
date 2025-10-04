@@ -116,6 +116,24 @@ body {
   padding: 1.5rem;
 }
 
+.form-required {
+  color: #dc2626;
+  font-weight: 700;
+  margin-left: 0.25rem;
+}
+
+.modal-body .form-text {
+  color: #64748b;
+}
+
+.form-actions {
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.form-actions .btn {
+  min-width: 160px;
+}
 /* === RESPONSIVE === */
 @media (max-width: 767.98px) {
   .app-hero {

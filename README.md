@@ -44,7 +44,7 @@ frontend (React)  ⇄  backend (Express + Swagger)  ⇄  PostgreSQL (Sequelize)
 1. Clona el repositorio y navega al directorio raíz:
 
    ```bash
-   git clone https://github.com/<usuario>/pruebaGLocation.git
+   git clone https://github.com/jmgalindor9802/pruebaGLocation.git
    cd pruebaGLocation
    ```
 
