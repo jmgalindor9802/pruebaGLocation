@@ -37,7 +37,7 @@ services:
       - "5173:5173"
     volumes:
       - ./frontend:/app
-    command: npm run dev
+    command: sh -c "npm install --include=dev && npm run dev -- --host"
 
 volumes:
   db_data:
