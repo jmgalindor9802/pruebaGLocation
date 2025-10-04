@@ -87,9 +87,6 @@ body {
 }
 
 /* === TABLAS Y CONTENIDO === */
-.table-description {
-  white-space: pre-line;
-}
 
 .analysis-content {
   white-space: pre-wrap;

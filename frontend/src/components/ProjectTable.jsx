@@ -1,3 +1,10 @@
+const CLASES_ESTADO = {
+  'En progreso': 'text-bg-primary',
+  Finalizado: 'text-bg-success',
+  Pendiente: 'text-bg-warning text-dark',
+  'En espera': 'text-bg-info',
+}
+
 function ProjectTable({
   proyectos,
   cargando,
@@ -32,6 +39,14 @@ function ProjectTable({
         ) : (
           <div className="table-responsive responsive-table">
             <table className="table table-hover align-middle mb-0">
+                  <colgroup>
+                <col className="w-25" />
+                <col style={{ width: '12rem' }} />
+                <col style={{ width: '10rem' }} />
+                <col style={{ width: '10rem' }} />
+                <col className="w-25" />
+                <col style={{ width: '8rem' }} />
+              </colgroup>
               <thead>
                 <tr>
                   <th>Nombre</th>
@@ -46,20 +61,36 @@ function ProjectTable({
                 {proyectos.map((proyecto) => (
                   <tr key={proyecto.id ?? proyecto.nombre}>
                     <td className="fw-semibold text-secondary" data-label="Nombre">
-                      {proyecto.nombre}
+                       <span className="d-inline-block text-truncate" style={{ maxWidth: '14rem' }}>
+                        {proyecto.nombre}
+                      </span>
                     </td>
                     <td data-label="Estado">
-                      <span className="badge text-bg-info text-wrap">
+                       <span
+                        className={`badge rounded-pill ${
+                          CLASES_ESTADO[proyecto.estado] ?? 'text-bg-secondary'
+                        }`}
+                      >
                         {proyecto.estado ?? 'Sin estado'}
                       </span>
                     </td>
-                    <td data-label="Inicio">{formatearFecha(proyecto.fechaInicio)}</td>
-                    <td data-label="Fin">{formatearFecha(proyecto.fechaFin)}</td>
-                    <td className="table-description text-muted small" data-label="Descripción">
-                      {proyecto.descripcion}
+                    <td data-label="Inicio">
+                      <span className="d-inline-block text-truncate" style={{ maxWidth: '9rem' }}>
+                        {formatearFecha(proyecto.fechaInicio)}
+                      </span>
+                    </td>
+                    <td data-label="Fin">
+                      <span className="d-inline-block text-truncate" style={{ maxWidth: '9rem' }}>
+                        {formatearFecha(proyecto.fechaFin)}
+                      </span>
+                    </td>
+                    <td className="text-muted small" data-label="Descripción">
+                      <div className="text-wrap text-break" style={{ maxWidth: '16rem' }}>
+                        {proyecto.descripcion}
+                      </div>
                     </td>
                     <td className="text-end" data-label="Acciones">
-                      <div className="d-flex justify-content-end justify-content-md-end gap-2 flex-wrap responsive-table-actions">
+                      <div className="d-flex justify-content-end gap-2 flex-wrap">
                         <button
                           type="button"
                           className="btn btn-outline-primary btn-sm"
