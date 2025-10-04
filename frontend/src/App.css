@@ -1,42 +1,51 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+body {
+  background-color: #f8f9fa;
+}
+
+.app-container {
+  max-width: 1140px;
+}
+
+.form-actions .btn {
+  min-width: 160px;
+}
+
+@media (max-width: 575.98px) {
+  .form-actions .btn {
+    width: 100%;
+  }
+}
+
+.table-description {
+  white-space: pre-line;
+}
+
+.analysis-content {
+  white-space: pre-wrap;
+}
+
+.chart-progress .progress {
+  height: 1.75rem;
+  background-color: rgba(13, 110, 253, 0.08);
+}
+
+.chart-progress .progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.chart-progress .progress + .progress {
+  margin-top: 1rem;
+}
+
+.chart-empty {
+  background: rgba(108, 117, 125, 0.12);
+  color: #495057;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
   text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }
