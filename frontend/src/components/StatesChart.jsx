@@ -3,12 +3,15 @@ function StatesChart({ datos }) {
     return <div className="chart-empty">Aún no hay información para graficar.</div>
   }
 
-  const valorMaximo = Math.max(...datos.map((item) => item.valor), 0)
+   const totalProyectos = datos.reduce(
+    (acumulado, item) => acumulado + (Number(item.valor) || 0),
+    0,
+  )
 
   return (
     <div className="chart-progress">
       {datos.map((item) => {
-        const porcentaje = valorMaximo ? (item.valor / valorMaximo) * 100 : 0
+        const porcentaje = totalProyectos ? (item.valor / totalProyectos) * 100 : 0
         const estiloBarra = { width: `${porcentaje}%` }
 
         if (item.valor && porcentaje < 12) {
@@ -27,7 +30,7 @@ function StatesChart({ datos }) {
               aria-label={`Proyectos en estado ${item.etiqueta}`}
               aria-valuenow={item.valor}
               aria-valuemin={0}
-              aria-valuemax={valorMaximo || 1}
+              aria-valuemax={totalProyectos || 1}
             >
               <div className="progress-bar" style={estiloBarra}>
                 {porcentaje >= 18 ? `${Math.round(porcentaje)}%` : ''}

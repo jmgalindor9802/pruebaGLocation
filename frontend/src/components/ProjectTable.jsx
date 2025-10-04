@@ -2,7 +2,6 @@ function ProjectTable({
   proyectos,
   cargando,
   onCrear,
-  onRefrescar,
   onEditar,
   onEliminar,
   formatearFecha,

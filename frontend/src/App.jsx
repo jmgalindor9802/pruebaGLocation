@@ -64,7 +64,7 @@ function App() {
 
   const obtenerGraficoEstados = useCallback(async () => {
     try {
-      const respuesta = await fetch(`${API_URL}/graficos`)
+      const respuesta = await fetch(`${API_URL}/proyectos/graficos`)
       if (!respuesta.ok) throw new Error('No fue posible cargar el gráfico')
       const payload = await respuesta.json()
       setDatosGrafico(obtenerGrafico(payload))
@@ -265,7 +265,6 @@ function App() {
           proyectos={proyectos}
           cargando={cargandoProyectos}
           onCrear={abrirModalCrear}
-          onRefrescar={refrescarInformacion}
           onEditar={manejarEdicion}
           onEliminar={abrirModalEliminar}
           formatearFecha={formatearFechaParaMostrar}

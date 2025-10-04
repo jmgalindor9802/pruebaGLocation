@@ -34,6 +34,8 @@ export const obtenerGrafico = (payload) => {
   if (typeof payload === 'object') {
     if (Array.isArray(payload?.data)) return obtenerGrafico(payload.data)
     if (Array.isArray(payload?.estados)) return obtenerGrafico(payload.estados)
+    if (Array.isArray(payload?.proyectosPorEstado))
+      return obtenerGrafico(payload.proyectosPorEstado)
     return Object.entries(payload)
       .map(([etiqueta, valor]) => ({ etiqueta, valor: Number(valor) }))
       .filter((item) => item.etiqueta && !Number.isNaN(item.valor))
