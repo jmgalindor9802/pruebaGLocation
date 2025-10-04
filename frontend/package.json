@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "bootstrap": "^5.3.8"
   },
   "devDependencies": {
-    "bootstrap": "^5.3.8",
     "@eslint/js": "^9.36.0",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",

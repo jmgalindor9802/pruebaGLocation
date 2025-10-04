@@ -49,3 +49,46 @@ body {
   padding: 1.5rem;
   text-align: center;
 }
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(33, 37, 41, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 1050;
+}
+
+.modal-dialog-custom {
+  width: 100%;
+  max-width: 640px;
+  outline: none;
+}
+
+.modal-dialog-custom.modal-lg {
+  max-width: 900px;
+}
+
+.modal-dialog-custom.modal-sm {
+  max-width: 420px;
+}
+
+.modal-content {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.25);
+}
+
+.modal-header {
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-title {
+  font-weight: 600;
+}
