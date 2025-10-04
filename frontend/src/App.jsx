@@ -8,6 +8,7 @@ import StatesChart from './components/StatesChart'
 import AnalysisPanel from './components/AnalysisPanel'
 import { obtenerAnalisis, obtenerGrafico, obtenerProyectos } from './utils/dataTransformers'
 import { formatearFechaParaInput, formatearFechaParaMostrar } from './utils/formatters'
+import logo from './assets/logo.png'
 
 function App() {
   const [proyectos, setProyectos] = useState([])
@@ -220,16 +221,33 @@ function App() {
   return (
     <div className="bg-light min-vh-100">
       <main className="app-container container py-4 py-md-5">
-        <header className="mb-4 mb-md-5 text-center text-md-start">
-          <span className="badge text-bg-primary-subtle text-primary-emphasis mb-2">
-            Panel de control
-          </span>
-          <h1 className="display-6 fw-bold">Gestor de proyectos</h1>
-          <p className="text-muted fs-5 mb-0">
-            Administra los proyectos registrados en la API, genera resúmenes automáticos con IA y
-            visualiza su distribución por estado.
-          </p>
-        </header>
+    <header className="app-hero card border-0 shadow-sm mb-4 mb-md-5">
+  <div className="card-body p-4 p-md-5 d-flex flex-column gap-3 gap-md-4">
+    {/* LOGO + TITULOS */}
+    <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3 gap-md-4">
+      <div className="app-logo-wrapper flex-shrink-0 mx-auto mx-md-0">
+        <img src={logo} alt="Logotipo de GLocation" className="app-logo" />
+      </div>
+
+      <div className="text-center text-md-start">
+        <span className="app-badge d-inline-block mb-2">
+          Panel de control
+        </span>
+        <h1 className="app-title fw-bold mb-2">
+          Gestor de proyectos
+        </h1>
+        <p className="app-subtitle fs-5 mb-0">
+          Administra los proyectos registrados, genera resúmenes automáticos con IA y
+          visualiza su distribución por estado.
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+
 
         {alerta && (
           <div className={`alert alert-${tipoAlerta} alert-dismissible fade show`} role="alert">

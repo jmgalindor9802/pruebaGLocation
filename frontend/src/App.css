@@ -6,16 +6,87 @@ body {
   max-width: 1140px;
 }
 
-.form-actions .btn {
-  min-width: 160px;
+/* === HEADER ELEGANTE, EQUILIBRADO Y CONTRASTADO === */
+.app-hero {
+  background: linear-gradient(135deg, #1e293b 0%, #111827 80%);
+  color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.35);
+  position: relative;
+  overflow: hidden;
+  padding: 2rem 2rem 2.25rem;
 }
 
-@media (max-width: 575.98px) {
-  .form-actions .btn {
-    width: 100%;
-  }
+.app-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.25), transparent 70%),
+              radial-gradient(circle at 80% 70%, rgba(147, 51, 234, 0.25), transparent 70%);
+  z-index: 0;
 }
 
+.app-hero .card-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+/* === LOGO DESTACADO ARRIBA === */
+.app-logo-wrapper {
+  background: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  width: 130px;
+  height: auto;
+  padding: 0;
+  margin-bottom: 0.5rem;
+}
+
+.app-logo {
+  width: 130px;
+  height: auto;
+  filter: drop-shadow(0 6px 10px rgba(255, 255, 255, 0.35));
+}
+
+/* === BADGE CON CONTRASTE CLARO === */
+.app-badge,
+.app-hero .badge {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.3rem 0.75rem;
+  border-radius: 0.4rem;
+  text-transform: uppercase;
+  backdrop-filter: blur(6px);
+}
+
+/* === TEXTO PRINCIPAL === */
+.app-title {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.app-subtitle,
+.app-hero .fs-5 {
+  color: #f1f5f9;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  opacity: 1; /* total contraste */
+  max-width: 720px;
+  margin: 0.25rem 0 0;
+}
+
+/* === TABLAS Y CONTENIDO === */
 .table-description {
   white-space: pre-line;
 }
@@ -24,56 +95,15 @@ body {
   white-space: pre-wrap;
 }
 
-.chart-progress .progress {
-  height: 1.75rem;
-  background-color: rgba(13, 110, 253, 0.08);
+.responsive-table {
+  border-radius: 1rem;
 }
 
-.chart-progress .progress-bar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+.responsive-table-actions {
+  min-width: 0;
 }
 
-.chart-progress .progress + .progress {
-  margin-top: 1rem;
-}
-
-.chart-empty {
-  background: rgba(108, 117, 125, 0.12);
-  color: #495057;
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  text-align: center;
-}
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(33, 37, 41, 0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  z-index: 1050;
-}
-
-.modal-dialog-custom {
-  width: 100%;
-  max-width: 640px;
-  outline: none;
-}
-
-.modal-dialog-custom.modal-lg {
-  max-width: 900px;
-}
-
-.modal-dialog-custom.modal-sm {
-  max-width: 420px;
-}
-
+/* === MODALES === */
 .modal-content {
   border: none;
   border-radius: 1rem;
@@ -81,7 +111,7 @@ body {
 }
 
 .modal-header {
-  padding: 1.5rem 1.5rem 1rem;
+  padding: 1.25rem 1.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
@@ -89,6 +119,27 @@ body {
   padding: 1.5rem;
 }
 
-.modal-title {
-  font-weight: 600;
+/* === RESPONSIVE === */
+@media (max-width: 767.98px) {
+  .app-hero {
+    text-align: center;
+    padding: 1.5rem 1rem 1.75rem;
+  }
+
+  .app-logo {
+    width: 100px;
+  }
+
+  .app-title {
+    font-size: 1.9rem;
+  }
+
+  .app-hero .badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+  }
+
+  .app-subtitle {
+    font-size: 1rem;
+  }
 }
