@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import './App.css'
 import { FORM_INICIAL } from './constants'
 import ProjectTable from './components/ProjectTable'
@@ -20,6 +20,11 @@ function App() {
   const [proyectoPorEliminar, setProyectoPorEliminar] = useState(null)
 
   const { alerta, mostrarAlerta, limpiarAlerta, tipoAlerta } = useAlert()
+  const manejarErrorProyectos = useCallback(
+    (mensaje) => mostrarAlerta(mensaje, 'error'),
+    [mostrarAlerta],
+  )
+
 
   const {
     proyectos,
@@ -30,7 +35,7 @@ function App() {
     guardarProyecto,
     eliminarProyecto,
   } = useProjects({
-    onError: (mensaje) => mostrarAlerta(mensaje, 'error'),
+    onError: manejarErrorProyectos,
   })
 
   const { analisis, cargandoAnalisis, generarAnalisis } = useAnalysis()
