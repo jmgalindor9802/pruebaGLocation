@@ -22,38 +22,45 @@ export const buildPromptForProyectos = (proyecto = {}) => {
 };
 
 const buildPromptForAnalisis = (proyectos = []) => {
-    const prompt = [
-        "Actúa como un analista senior que crea resúmenes ejecutivos de portafolios de proyectos.",
-        "Debes analizar la siguiente lista de proyectos y devolver un JSON válido con la estructura",
-        '{"resumen": string, "descripciones": [{"id": number, "descripcion": string}]} sin texto adicional.',
-        "Describe cada proyecto con un máximo de 80 palabras manteniendo un tono profesional y positivo.",
-        "Proyectos a analizar:",
-    ];
+  const prompt = [
+    "Actúa como un analista senior que crea resúmenes ejecutivos de portafolios de proyectos.",
+    "Analiza la siguiente lista de proyectos y devuelve un JSON válido con la siguiente estructura:",
+    '{"resumen": string, "descripciones": [{"id": string, "descripcion": string}]}',
+    "No incluyas texto adicional fuera del JSON.",
+    "Para cada proyecto, genera una descripción breve (máximo 80 palabras) que resuma su propósito, estado actual y relevancia.",
+    "Luego, incluye un resumen general del portafolio completo.",
+    "Proyectos a analizar:",
+  ];
 
-    proyectos.forEach((proyecto) => {
-        prompt.push("---");
-        buildPromptForProyectos(proyecto).forEach((line) => prompt.push(line));
-    });
-
+  proyectos.forEach((proyecto) => {
     prompt.push("---");
-    prompt.push("Recuerda responder únicamente con JSON válido.");
+    prompt.push(`ID: ${proyecto.id}`);
+    prompt.push(`Nombre: ${proyecto.nombre}`);
+    prompt.push(`Descripción: ${proyecto.descripcion}`);
+    prompt.push(`Estado: ${proyecto.estado}`);
+  });
 
-    return prompt.join("\n");
+  prompt.push("---");
+  prompt.push("Recuerda responder únicamente con JSON válido.");
+
+  return prompt.join("\n");
 };
+
 
 const limpiarCodigoJson = (texto = "") =>
     texto.replace(/```json/gi, "").replace(/```/g, "").trim();
 
 const normalizarDescripciones = (descripciones = []) => {
-    if (!Array.isArray(descripciones)) return [];
-    return descripciones
-        .map((item = {}) => ({
-            id: Number(item.id),
-            descripcion:
-                typeof item.descripcion === "string" ? item.descripcion.trim() : null,
-        }))
-        .filter((item) => Number.isFinite(item.id) && item.descripcion);
+  if (!Array.isArray(descripciones)) return [];
+  return descripciones
+    .map((item = {}) => ({
+      id: typeof item.id === "string" ? item.id.trim() : null,
+      descripcion:
+        typeof item.descripcion === "string" ? item.descripcion.trim() : null,
+    }))
+    .filter((item) => item.id && item.descripcion);
 };
+
 
 const extraerTextoDeRespuesta = (respuestaJson) => {
     const candidatos = respuestaJson?.candidates;
