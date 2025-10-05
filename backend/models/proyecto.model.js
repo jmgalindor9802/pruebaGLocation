@@ -60,22 +60,7 @@ Proyecto.init(
         },
       },
     },
-    presupuesto: {
-      type: DataTypes.DECIMAL(12, 2),
-      allowNull: true,
-      validate: {
-        isDecimal: {
-          msg: "El presupuesto debe ser un número válido",
-        },
-        minPresupuesto(value) {
-          if (value === null || value === undefined) return;
-          if (Number(value) < 0) {
-            throw new Error("El presupuesto no puede ser negativo");
-          }
-        },
-      },
     },
-  },
   {
     sequelize,
     modelName: "Proyecto",
